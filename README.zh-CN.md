@@ -18,5 +18,3 @@ python tools/build_and_test.py --openmp
 build/pac-bench --contest
 python tools/verify_archive.py
 ```
-
-作为 PAC2025 团队工作的一部分。本仓库保留维护后的实现、历史数据以及验证工具。
