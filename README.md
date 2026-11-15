@@ -1,5 +1,3 @@
-**English** | [简体中文](README.zh-CN.md)
-
 # PAC-DGEMM: FP64 GEMM on Kunpeng 920
 
 FP64 DGEMM on Huawei Kunpeng 920. Shape M=12349, N=140, K=3040: serial `-O1` **11.07 s**, optimized **0.040 s**, **276×**.
