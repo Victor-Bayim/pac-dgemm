@@ -1,16 +1,16 @@
 **English** | [简体中文](README.zh-CN.md)
 
-# PAC-DGEMM: High-Performance FP64 GEMM on Kunpeng 920
+# PAC-DGEMM: FP64 GEMM on Kunpeng 920
 
-FP64 DGEMM for Huawei Kunpeng 920. On the representative contest shape (M=12349, N=140, K=3040) the optimized configuration finishes in **0.040 s** versus **11.07 s** for a serial `-O1` baseline (**276×**).
+FP64 DGEMM on Huawei Kunpeng 920. Shape M=12349, N=140, K=3040: serial `-O1` **11.07 s**, optimized **0.040 s**, **276×**.
 
-The implementation is a self-contained column-major, NoTrans DGEMM (`pac_dgemm_colmajor`). It packs A and B into micro-panels with fixed strides, runs a 4×4 AArch64 NEON kernel for the main tiles, and handles tails, padded leading dimensions, and block boundaries without falling back to a scalar path for the common case. Alpha/beta scaling, including the NaN-safe `beta=0` case, is done inside the kernel. Invalid dimensions, strides, or pointers return an error; the caller is still responsible for buffer sizes.
+`pac_dgemm_colmajor` is column-major, NoTrans. A and B are packed into micro-panels with fixed strides. The main tiles run a 4×4 AArch64 NEON kernel. Tails, padded leading dimensions, and block boundaries stay on the same path. Alpha/beta, including NaN-safe `beta=0`, is applied inside the kernel. Bad dimensions, strides, or pointers return an error.
 
-OpenMP is optional and only active when compiled in. The default build needs only a C++17 compiler and Python 3; no third-party BLAS or historical SDK is required. `PAC_FORCE_SCALAR=1` disables NEON for comparison.
+OpenMP turns on at compile time. Default build is a C++17 compiler and Python 3. No BLAS. `PAC_FORCE_SCALAR=1` drops NEON.
 
-Correctness is checked against an independent long-double column-major reference. The test suite covers rectangular matrices, multiple microtiles, M/N/K block boundaries, padded leading dimensions, alpha/beta combinations, empty dimensions, rejected parameters, and output guards/padding. The four archived contest shapes are included.
+Correctness is checked against an independent long-double column-major reference: rectangular shapes, multiple microtiles, M/N/K block edges, padded leading dimensions, alpha/beta, empty dimensions, rejected arguments, output guards. The four contest shapes are in the suite.
 
-The benchmark driver restores C outside the timed region, runs a separate warmup, and reports every duration along with median and minimum. Small cases check the full output; large cases check 64 sampled positions. All four contest shapes and the 16-stage throughput records are kept in `archive/data/` and can be re-verified with `tools/verify_archive.py`. OpenMP runs used `-O3` and 38 bound threads.
+The benchmark restores C outside the timed region, warms up separately, and prints every run plus median and minimum. Small shapes check every output; large shapes check 64 sampled positions. Four shapes and the 16-stage throughput records sit in `archive/data/`. OpenMP numbers used `-O3` and 38 bound threads.
 
 ```bash
 python tools/build_and_test.py
