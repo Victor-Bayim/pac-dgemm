@@ -18,5 +18,3 @@ python tools/build_and_test.py --openmp
 build/pac-bench --contest
 python tools/verify_archive.py
 ```
-
-Developed as part of the PAC2025 team effort. This repository keeps the maintained implementation, the historical data, and the verification tooling.
