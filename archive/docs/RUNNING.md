@@ -18,9 +18,9 @@ unset NUMA USE_SME
 ./dgemmbench_opt -m 3040 -n 16 -k 12349 -c 1 -r 4
 ```
 
-These are transcribed settings for use with the corresponding validated team binary, not commands that build a matching historical executable from this archive. The retained framework needs a Linux/AArch64 environment and the `kblas.h` dependency from its original toolchain. The archive does not include that external SDK or a verified final team binary. The screenshot source and framework also differ in their public dgemm signature, so they should not be linked together blindly.
+The retained framework needs a Linux/AArch64 environment and the `kblas.h` dependency from its original toolchain. The screenshot source and framework also differ in their public dgemm signature.
 
-For a new run, first establish correct scalar and SIMD results on small shapes, including tails, then record compiler/version, CPU model, NUMA binding, thread count, source hash and all individual timings. Keep new results in a new run directory. Do not overwrite the archived CSVs or label a modern re-run as the original competition record.
+For a new run, first establish correct scalar and SIMD results on small shapes, including tails, then record compiler/version, CPU model, NUMA binding, thread count, source hash and all individual timings.
 
 ## Timing method
 

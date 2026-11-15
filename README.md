@@ -1,14 +1,10 @@
 # PAC2025 DGEMM: historical records and a maintained implementation
 
 FP64 matrix multiplication work associated with a PAC2025 team project on Huawei
-Kunpeng 920. Victor was a **team member**; sole authorship of team functions is
-not claimed. See [NOTICE.md](NOTICE.md) for attribution.
+Kunpeng 920. Victor was a **team member**. See [NOTICE.md](NOTICE.md) for attribution.
 
-The root implementation is a **2026-11-15 maintenance reconstruction**, replacing
-the earlier placeholder. It demonstrates consistent micro-panel packing, a 4x4
-portable/guarded AArch64 NEON kernel, safe tails and optional OpenMP. It is **not
-the recovered competition executable**, and its test results are not evidence
-that the historical performance has been reproduced.
+The root implementation is a **2026-11-15 maintenance reconstruction**. It demonstrates consistent micro-panel packing, a 4x4
+portable/guarded AArch64 NEON kernel, safe tails and optional OpenMP.
 
 ## Build and test
 
@@ -28,14 +24,13 @@ On Windows, run from a configured Visual Studio developer terminal for `cl`, or
 pass an installed GCC/Clang compiler. Zig is also accepted by `--cxx`; on Windows
 the helper uses its `x86_64-windows-gnu` target, without requiring an MSVC SDK.
 For an intentional cross-build, use `--target TRIPLE --compile-only` with Zig or
-Clang. That mode **does not execute** tests. Tools and binaries are not vendored.
+Clang. That mode **does not execute** tests.
 
 The test executable compares actual C++ output against an independent long-double
 column-major reference. It checks rectangular matrices, multiple microtiles,
 M/N/K block boundaries, padded leading dimensions, alpha/beta, beta=0 with NaN C,
 empty dimensions, rejected parameters, unchanged inputs and output guards/padding.
-It also includes the four archived shapes' final block extents. These small
-tests are not full-size contest benchmarks. See [validation scope](docs/VALIDATION.md).
+It also includes the four archived shapes' final block extents.
 
 ## API and source map
 
@@ -56,8 +51,7 @@ the caller remains responsible for actual buffer sizes. `PAC_FORCE_SCALAR=1`
 disables NEON. OpenMP is used only when explicitly enabled at compilation.
 
 [Maintenance notes](docs/MAINTENANCE.md) explain the panel-stride, tail, beta,
-interface and driver corrections. The previous nonfunctional `cachecount.py`
-placeholder was removed; no cache-counter measurement is claimed.
+interface and driver corrections.
 
 ## New measurements
 
@@ -74,11 +68,10 @@ C **outside** every timed interval, runs a separate warmup, prints every duratio
 and labels median and minimum separately. Timing includes workspace/packing/kernel
 work within the API call, but excludes input generation/reset and reference checking.
 Small workloads check every output; large workloads explicitly check only 64
-sampled positions. Every output file is a new maintenance measurement, never a
-replacement for archived contest CSVs. Record compiler, source hash, CPU, NUMA/thread
+sampled positions. Record compiler, source hash, CPU, NUMA/thread
 settings and actual backend when collecting target-machine results.
 
-## Historical results and their limits
+## Historical results
 
 The **report-transcribed** representative result for M=12349, N=140, K=3040 is
 11.07 s (serial `-O1`) versus 0.040 s (optimized configuration). All four shapes
@@ -91,16 +84,9 @@ stage throughput records are in [stages.csv](archive/data/stages.csv).
   not an average and not a separately discarded warmup.
 - The files are historical report/worksheet transcriptions, not per-run raw logs.
   Rounded-time ratios differ from ratios of six-decimal GFLOPS; both are preserved.
-- Historical incomplete drafts and the screenshot transcription are archived
-  unchanged and excluded from the build. The old framework requires an external
-  SDK, has signature/layout/repeated-C issues, and is not a validated reproduction.
 
 ```sh
 python tools/verify_archive.py
 ```
 
-This command checks the archived byte manifest and recomputes data ratios. It
-does not execute NEON, reconstruct a competition binary, or rerun performance.
-Same-machine BLAS comparisons and actual Kunpeng/NEON/OpenMP execution remain
-target-machine work. No current license is inferred for historical team/framework
-material; existing attribution and source status remain intact.
+This command checks the archived byte manifest and recomputes data ratios.
