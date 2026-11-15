@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "origin": "Participant-supplied PAC evidence archive; historical payload copied unchanged",
+  "files": [
+    {
+      "path": "ATTRIBUTION.md",
+      "bytes": 1186,
+      "sha256": "fe41b4eda025f54e0250bf91a44293c0273c586241111628fce567bebbc90d85"
+    },
+    {
+      "path": "data/elapsed-summary.csv",
+      "bytes": 392,
+      "sha256": "90b45fc43f7f631cdf1b7016823e145b9ef3720c18da4976226a72ccc8d625d1"
+    },
+    {
+      "path": "data/optimization-record.csv",
+      "bytes": 1180,
+      "sha256": "f276edcf3c9dab0d0328426707ea3412f14b49aeae5e7af48bf3d4ec1e914886"
+    },
+    {
+      "path": "data/stages.csv",
+      "bytes": 940,
+      "sha256": "3439e378964c773abb43e13275846a93b4c8c6b10652b2ab09d9d4cbe3a6f3dc"
+    },
+    {
+      "path": "docs/RUNNING.md",
+      "bytes": 2010,
+      "sha256": "bb4e318f26f65145c0b81f237fbec66e81fac4792d458406fb85bd00c78c0060"
+    },
+    {
+      "path": "source/original/dgemm_final.cpp",
+      "bytes": 9243,
+      "sha256": "0657bc8ea87001459c45851498fab255f8f2f8b4fe2dd9a5fd33e8c7da003125"
+    },
+    {
+      "path": "source/original/opt.cpp",
+      "bytes": 3750,
+      "sha256": "9b6754f5aa1d53eebb5228ab72b538fdb1f0800d2073d7830995def6ceb3088d"
+    },
+    {
+      "path": "source/reference/include/gemm.h",
+      "bytes": 466,
+      "sha256": "d764f8487a6803466ca7e06d0dee34bc9772f50d8e014aaab36a7a7b583c18c5"
+    },
+    {
+      "path": "source/reference/Makefile",
+      "bytes": 276,
+      "sha256": "e64ad5130f7d9423062b0961ce6344cb19a1885caafb5b75c1b7e190dcc45188"
+    },
+    {
+      "path": "source/reference/src/gemm.cpp",
+      "bytes": 2458,
+      "sha256": "279003bd57c9abc1b231d3e52ddf39f325f1a8a9feb9638311a431025bf87588"
+    },
+    {
+      "path": "source/reference/test/gemmtest.cpp",
+      "bytes": 4165,
+      "sha256": "9a23acecbd7dfa2cca10cbd7e651781fb0ff44f039b72ca1cee008e002b0cf09"
+    },
+    {
+      "path": "source/reference/test/help.cpp",
+      "bytes": 421,
+      "sha256": "66d895a8ce65e92ee5fcefdab96542fb6ef80e801c2b28088b1a85ae93d702a7"
+    },
+    {
+      "path": "source/reference/test/help.h",
+      "bytes": 86,
+      "sha256": "b4e0d70e94ef9669865c105c36b3c5ed5a1f03733c6c3d137aac1c8a6d94e051"
+    },
+    {
+      "path": "source/transcribed/dgemm.cpp",
+      "bytes": 15002,
+      "sha256": "10b00712ebd7b405e79c585a3911a98ae0066e82d03f45b4175bcfa74fa8dd62"
+    },
+    {
+      "path": "TRANSCRIPTION.md",
+      "bytes": 1858,
+      "sha256": "2acfaf05cdbbbabdd5970f974f3a88ff598f3085737652b03e31e891c4f07519"
+    }
+  ]
+}

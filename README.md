@@ -1,36 +1,106 @@
-# Kunpeng DGEMM Optimization (PAC2025)
+# PAC2025 DGEMM: historical records and a maintained implementation
 
-FP64 matrix multiplication optimization for Huawei Kunpeng 920.
+FP64 matrix multiplication work associated with a PAC2025 team project on Huawei
+Kunpeng 920. Victor was a **team member**; sole authorship of team functions is
+not claimed. See [NOTICE.md](NOTICE.md) for attribution.
 
-## Overview
+The root implementation is a **2026-11-15 maintenance reconstruction**, replacing
+the earlier placeholder. It demonstrates consistent micro-panel packing, a 4x4
+portable/guarded AArch64 NEON kernel, safe tails and optional OpenMP. It is **not
+the recovered competition executable**, and its test results are not evidence
+that the historical performance has been reproduced.
 
-The implementation uses OpenMP task distribution, matrix packing, and a NEON 4×4 microkernel. It was developed for the PAC2025 competition across four matrix shapes with very different dimensions.
+## Build and test
 
-## Role
+Requires Python 3 and a C++17 compiler. The default build has no third-party
+library or OpenMP requirement. It does not require `kblas.h` or the historical SDK.
 
-Team member. This repository shows the team implementation and related notes. Individual function authorship is not claimed.
+```sh
+python tools/build_and_test.py
+# Explicit compiler, if not on PATH:
+python tools/build_and_test.py --cxx /path/to/clang++
+python tools/build_and_test.py --force-scalar
+# Only where the compiler's OpenMP headers and runtime are installed:
+python tools/build_and_test.py --openmp
+```
 
-## Key Results (representative shape)
+On Windows, run from a configured Visual Studio developer terminal for `cl`, or
+pass an installed GCC/Clang compiler. Zig is also accepted by `--cxx`; on Windows
+the helper uses its `x86_64-windows-gnu` target, without requiring an MSVC SDK.
+For an intentional cross-build, use `--target TRIPLE --compile-only` with Zig or
+Clang. That mode **does not execute** tests. Tools and binaries are not vendored.
 
-M=12349, N=140, K=3040:
+The test executable compares actual C++ output against an independent long-double
+column-major reference. It checks rectangular matrices, multiple microtiles,
+M/N/K block boundaries, padded leading dimensions, alpha/beta, beta=0 with NaN C,
+empty dimensions, rejected parameters, unchanged inputs and output guards/padding.
+It also includes the four archived shapes' final block extents. These small
+tests are not full-size contest benchmarks. See [validation scope](docs/VALIDATION.md).
 
-- −O1 serial baseline: 11.07 s
-- Optimized: 0.040 s
+## API and source map
 
-Full stage records (serial, OpenMP, NEON+Packing, best-of-4) are available in the accompanying verification materials.
+| File | Purpose |
+|---|---|
+| [dgemm_final.cpp](dgemm_final.cpp) | Current maintenance Packing + scalar/NEON + OpenMP implementation |
+| [include/pac_dgemm.h](include/pac_dgemm.h) | Matching C-compatible API, status values and memory contract |
+| [tests/correctness.cpp](tests/correctness.cpp) | Independent reference and bounds/semantics tests |
+| [bench/benchmark.cpp](bench/benchmark.cpp) | New measurement driver; restores C before every call |
+| [tools/build_and_test.py](tools/build_and_test.py) | Compiler detection, build, tests and a smoke benchmark |
+| [archive/](archive/) | Historical source drafts, labelled transcription, framework and data |
 
-## Structure
+`pac_dgemm_colmajor` computes `C = alpha*A*B + beta*C` for **column-major,
+NoTrans** matrices. lda/ldb/ldc may include padding. A/B/C storage must not overlap.
+There is no row-major or transpose option and this API is not a CBLAS ABI wrapper.
+Invalid dimensions/strides/pointers and representational overflow return an error;
+the caller remains responsible for actual buffer sizes. `PAC_FORCE_SCALAR=1`
+disables NEON. OpenMP is used only when explicitly enabled at compilation.
 
-- `dgemm_final.cpp` — optimized DGEMM implementation (packing + NEON microkernel + OpenMP)
-- `reference_gemm_test/` — reference test framework (not original work; preserved for context)
+[Maintenance notes](docs/MAINTENANCE.md) explain the panel-stride, tail, beta,
+interface and driver corrections. The previous nonfunctional `cachecount.py`
+placeholder was removed; no cache-counter measurement is claimed.
 
-## Notes
+## New measurements
 
-- Baseline is −O1 scalar serial.
-- OpenMP stage uses −O3 and thread binding.
-- Packing benefit is included in the NEON stage; stages are not fully independent ablations.
-- `reference_gemm_test/` is framework code supplied with the competition materials.
+After building, run `build/pac-bench` (or `build/pac-bench.exe` on Windows):
 
-## License
+```sh
+build/pac-bench --m 129 --n 131 --k 133 --rounds 5 --warmup 1
+# Optional full historical dimensions; potentially expensive:
+build/pac-bench --contest --rounds 5 --warmup 1
+```
 
-No explicit distribution license was found for the project-specific files. This snapshot is provided for portfolio reference. Preserve attribution when reusing.
+The driver uses fixed-seed nontrivial inputs and alpha=0.75, beta=-0.25. It restores
+C **outside** every timed interval, runs a separate warmup, prints every duration,
+and labels median and minimum separately. Timing includes workspace/packing/kernel
+work within the API call, but excludes input generation/reset and reference checking.
+Small workloads check every output; large workloads explicitly check only 64
+sampled positions. Every output file is a new maintenance measurement, never a
+replacement for archived contest CSVs. Record compiler, source hash, CPU, NUMA/thread
+settings and actual backend when collecting target-machine results.
+
+## Historical results and their limits
+
+The **report-transcribed** representative result for M=12349, N=140, K=3040 is
+11.07 s (serial `-O1`) versus 0.040 s (optimized configuration). All four shapes
+are retained in [elapsed-summary.csv](archive/data/elapsed-summary.csv); 16
+stage throughput records are in [stages.csv](archive/data/stages.csv).
+
+- OpenMP also changed the compiler level to `-O3` and used 38 bound threads.
+- Packing and NEON effects were not independently measured.
+- The retained driver's final `-r=4` statistic selects the **minimum of four**,
+  not an average and not a separately discarded warmup.
+- The files are historical report/worksheet transcriptions, not per-run raw logs.
+  Rounded-time ratios differ from ratios of six-decimal GFLOPS; both are preserved.
+- Historical incomplete drafts and the screenshot transcription are archived
+  unchanged and excluded from the build. The old framework requires an external
+  SDK, has signature/layout/repeated-C issues, and is not a validated reproduction.
+
+```sh
+python tools/verify_archive.py
+```
+
+This command checks the archived byte manifest and recomputes data ratios. It
+does not execute NEON, reconstruct a competition binary, or rerun performance.
+Same-machine BLAS comparisons and actual Kunpeng/NEON/OpenMP execution remain
+target-machine work. No current license is inferred for historical team/framework
+material; existing attribution and source status remain intact.

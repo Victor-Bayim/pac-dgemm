@@ -2,3 +2,14 @@
 *.out
 *.log
 __pycache__/
+build/
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.dll
+*.so
+*.a
+*.lib
+.zig-cache/
+zig-out/

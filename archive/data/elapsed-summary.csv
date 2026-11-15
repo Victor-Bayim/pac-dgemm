@@ -1,0 +1,5 @@
+case,m,n,k,baseline_seconds,optimized_seconds,source_kind,source_location
+1,12349,140,3040,11.07,0.040,transcribed_report_summary,PAC submission slides 6
+2,24698,8,3040,1.31,0.010,transcribed_report_summary,PAC submission slides 7
+3,256,3040,3040,4.93,0.252,transcribed_report_summary,PAC submission slides 8
+4,3040,16,12349,1.13,0.009,transcribed_report_summary,PAC submission slides 9
