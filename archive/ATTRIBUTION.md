@@ -1,3 +1,5 @@
+**English** | [简体中文](ATTRIBUTION.zh-CN.md)
+
 # Attribution and provenance
 
 - The original source snapshots and source images were supplied from the project participant's local PAC project archive.

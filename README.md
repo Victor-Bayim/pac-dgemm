@@ -1,3 +1,5 @@
+**English** | [简体中文](README.zh-CN.md)
+
 # PAC2025 DGEMM: historical records and a maintained implementation
 
 FP64 matrix multiplication work associated with a PAC2025 team project on Huawei
@@ -41,7 +43,7 @@ It also includes the four archived shapes' final block extents.
 | [tests/correctness.cpp](tests/correctness.cpp) | Independent reference and bounds/semantics tests |
 | [bench/benchmark.cpp](bench/benchmark.cpp) | New measurement driver; restores C before every call |
 | [tools/build_and_test.py](tools/build_and_test.py) | Compiler detection, build, tests and a smoke benchmark |
-| [archive/](archive/) | Historical source drafts, labelled transcription, framework and data |
+| [archive/](archive) | Historical source drafts, labelled transcription, framework and data |
 
 `pac_dgemm_colmajor` computes `C = alpha*A*B + beta*C` for **column-major,
 NoTrans** matrices. lda/ldb/ldc may include padding. A/B/C storage must not overlap.

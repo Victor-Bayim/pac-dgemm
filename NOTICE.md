@@ -1,3 +1,5 @@
+**English** | [简体中文](NOTICE.zh-CN.md)
+
 # Attribution
 
 This is Victor-Bayim's portfolio repository for a PAC2025 team DGEMM project.

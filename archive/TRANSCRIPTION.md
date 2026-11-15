@@ -1,3 +1,5 @@
+**English** | [简体中文](TRANSCRIPTION.zh-CN.md)
+
 # Source transcription
 
 `source/transcribed/dgemm.cpp` was prepared on 2026-11-01 by comparing the local draft with all 11 code images. It is a transcription of the screenshot listing. Comments and spacing have been normalized. `<cstdint>` is retained from the local draft to define fixed-width types.

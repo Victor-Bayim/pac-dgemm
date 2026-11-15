@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "ATTRIBUTION.md",
-      "bytes": 420,
-      "sha256": "9ac4de804eb40f589fa9ceba962797426a680df58dcf6ed7f06d69d9575877ae"
+      "bytes": 472,
+      "sha256": "d35daa53b3c75957c2024941ace79a0b306e93f6b487fa8f36dbb03a587a6b29"
     },
     {
       "path": "data/elapsed-summary.csv",
@@ -24,8 +24,8 @@
     },
     {
       "path": "docs/RUNNING.md",
-      "bytes": 1585,
-      "sha256": "0bdb05e968fcc0bfaebebd58d1181757da294b03bff6fcfc73ce32edc950cf30"
+      "bytes": 1633,
+      "sha256": "ef2f53f69de307369591d8ed4dd39e8fd448435fc5b4bde0c56341c0c1439676"
     },
     {
       "path": "source/original/dgemm_final.cpp",
@@ -74,8 +74,8 @@
     },
     {
       "path": "TRANSCRIPTION.md",
-      "bytes": 1473,
-      "sha256": "09b05185291a039e831cbf6ed197a0335e6bfdb167cbe1bea885564aba222694"
+      "bytes": 1527,
+      "sha256": "739c015000a67b314ff59a24e2e939757dddf11a151d0c9022a1cfc4f69d72c1"
     }
   ]
 }

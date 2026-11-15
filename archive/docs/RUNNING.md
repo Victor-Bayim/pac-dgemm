@@ -1,3 +1,5 @@
+**English** | [简体中文](RUNNING.zh-CN.md)
+
 # Running and interpreting the measurements
 
 ## Archived configuration
